@@ -1,8 +1,14 @@
+use crate::navigation::Navigation;
+use crate::pages::about_page::AboutPage;
+use crate::pages::blog_page::BlogPage;
+use crate::pages::home_page::HomePage;
+use crate::pages::projects_page::ProjectsPage;
+use crate::pages::resume_page::ResumePage;
 use leptos::prelude::*;
 use leptos_meta::{provide_meta_context, Stylesheet, Title};
 use leptos_router::{
     components::{Route, Router, Routes},
-    StaticSegment, WildcardSegment,
+    path, StaticSegment, WildcardSegment,
 };
 
 #[component]
@@ -20,26 +26,18 @@ pub fn App() -> impl IntoView {
 
         // content for this welcome page
         <Router>
+            <Navigation />
             <main>
                 <Routes fallback=move || "Not found.">
-                    <Route path=StaticSegment("") view=HomePage/>
-                    <Route path=WildcardSegment("any") view=NotFound/>
+                    <Route path=StaticSegment("") view=HomePage />
+                    <Route path=WildcardSegment("any") view=NotFound />
+                    <Route path=path!("/blog") view=BlogPage />
+                    <Route path=path!("/projects") view=ProjectsPage />
+                    <Route path=path!("/resume") view=ResumePage />
+                    <Route path=path!("/about") view=AboutPage />
                 </Routes>
             </main>
         </Router>
-    }
-}
-
-/// Renders the home page of your application.
-#[component]
-fn HomePage() -> impl IntoView {
-    // Creates a reactive value to update the button
-    let count = RwSignal::new(0);
-    let on_click = move |_| *count.write() += 1;
-
-    view! {
-        <h1>"Welcome to Leptos!"</h1>
-        <button on:click=on_click>"Click Me: " {count}</button>
     }
 }
 
