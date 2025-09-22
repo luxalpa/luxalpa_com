@@ -16,7 +16,6 @@
 
 body {
   font-family: LTMuseum, sans-serif;
-  text-align: center;
 
   background-color: #3B3B3B;
   color: #D2D2D2;
@@ -61,5 +60,58 @@ body {
     align-items: center;
     justify-content: center;
     gap: 46px;
+  }
+}
+
+main {
+  margin-inline: 48px;
+}
+
+.blog-page {
+  margin: 0 auto;
+  width: min(100%, 1000px);
+
+  ul {
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 24px;
+    justify-content: center;
+    grid-template-columns: 100%;
+  }
+
+  li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    a {
+      color: #D2D2D2;
+      text-decoration: none;
+      display: grid;
+      grid-template-columns: 1fr auto;
+
+      h2 {
+        align-self: center;
+        font-size: 24px;
+        font-weight: bold;
+        color: #FFC300;
+        //margin: 0;
+        min-width: 0
+      }
+
+      .date {
+        align-self: center;
+        font-size: 20px;
+        color: #FF6A00;
+        min-width: 0
+      }
+
+      .description {
+        font-size: 20px;
+        grid-column: 1 / -1;
+        min-width: 0
+      }
+    }
   }
 }

@@ -30,14 +30,6 @@ pub fn load_articles() -> anyhow::Result<Vec<Article>> {
     Ok(articles)
 }
 
-pub struct Document<T: DeserializeOwned> {
-    /// A generic type with the structure of the Markdown's
-    /// front matter header.
-    pub metadata: T,
-    /// The body of the Markdown without the front matter header
-    pub content: String,
-}
-
 /// Parses the front matter header of a Markdown file and returns
 /// the body of the Markdown.
 /// From: https://github.com/LeoBorai/yaml-front-matter
@@ -82,4 +74,12 @@ fn extract(markdown: &str) -> (String, String) {
             .collect::<Vec<&str>>()
             .join("\n"),
     )
+}
+
+pub struct Document<T: DeserializeOwned> {
+    /// A generic type with the structure of the Markdown's
+    /// front matter header.
+    pub metadata: T,
+    /// The body of the Markdown without the front matter header
+    pub content: String,
 }
