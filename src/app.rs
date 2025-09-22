@@ -30,11 +30,11 @@ pub fn App() -> impl IntoView {
             <main>
                 <Routes fallback=move || "Not found.">
                     <Route path=StaticSegment("") view=HomePage />
-                    <Route path=WildcardSegment("any") view=NotFound />
                     <Route path=path!("/blog") view=BlogPage />
                     <Route path=path!("/projects") view=ProjectsPage />
                     <Route path=path!("/resume") view=ResumePage />
                     <Route path=path!("/about") view=AboutPage />
+                    <Route path=WildcardSegment("any") view=NotFound />
                 </Routes>
             </main>
         </Router>

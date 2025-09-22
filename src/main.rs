@@ -8,6 +8,9 @@ async fn main() -> std::io::Result<()> {
     use leptos_actix::{generate_route_list, LeptosRoutes};
     use leptos_meta::MetaTags;
     use luxalpa_com::app::*;
+    use luxalpa_com::server::markdown::load_articles;
+
+    let articles = web::Data::new(load_articles().unwrap());
 
     let conf = get_configuration(None).unwrap();
     let addr = conf.leptos_options.site_addr;
@@ -25,6 +28,7 @@ async fn main() -> std::io::Result<()> {
             .service(Files::new("/assets", &site_root))
             // serve the favicon from /favicon.ico
             .service(favicon)
+            .app_data(articles.clone())
             .leptos_routes(routes.clone(), {
                 let leptos_options = leptos_options.clone();
                 move || {

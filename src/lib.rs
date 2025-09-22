@@ -2,6 +2,9 @@ pub mod app;
 mod navigation;
 mod pages;
 
+#[cfg(feature = "ssr")]
+pub mod server;
+
 #[cfg(feature = "hydrate")]
 #[wasm_bindgen::prelude::wasm_bindgen]
 pub fn hydrate() {
