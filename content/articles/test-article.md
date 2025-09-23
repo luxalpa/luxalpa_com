@@ -6,3 +6,5 @@ slug: "test-article"
 ---
 
 This is the content of the test article.
+
+Markdown test: **Bold Text**.

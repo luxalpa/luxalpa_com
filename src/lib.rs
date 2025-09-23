@@ -2,6 +2,7 @@ pub mod app;
 mod navigation;
 mod pages;
 
+mod components;
 #[cfg(feature = "ssr")]
 pub mod server;
 

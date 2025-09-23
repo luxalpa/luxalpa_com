@@ -1,5 +1,6 @@
 use crate::navigation::Navigation;
 use crate::pages::about_page::AboutPage;
+use crate::pages::article_page::ArticlePage;
 use crate::pages::blog_page::BlogPage;
 use crate::pages::home_page::HomePage;
 use crate::pages::projects_page::ProjectsPage;
@@ -8,7 +9,7 @@ use leptos::prelude::*;
 use leptos_meta::{provide_meta_context, Stylesheet, Title};
 use leptos_router::{
     components::{Route, Router, Routes},
-    path, StaticSegment, WildcardSegment,
+    path, SsrMode, StaticSegment, WildcardSegment,
 };
 
 #[component]
@@ -31,6 +32,7 @@ pub fn App() -> impl IntoView {
                 <Routes fallback=move || "Not found.">
                     <Route path=StaticSegment("") view=HomePage />
                     <Route path=path!("/blog") view=BlogPage />
+                    <Route path=path!("/articles/:id") view=ArticlePage ssr=SsrMode::PartiallyBlocked />
                     <Route path=path!("/projects") view=ProjectsPage />
                     <Route path=path!("/resume") view=ResumePage />
                     <Route path=path!("/about") view=AboutPage />
