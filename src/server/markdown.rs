@@ -1,34 +1,4 @@
-use crate::pages::blog_page::Article;
 use serde::de::DeserializeOwned;
-
-#[derive(serde::Deserialize)]
-struct Metadata {
-    date: String,
-    title: String,
-    #[serde(rename = "abstract")]
-    description: String,
-    slug: String,
-}
-
-pub fn load_articles() -> anyhow::Result<Vec<Article>> {
-    let dir = "content/articles";
-    let files = std::fs::read_dir(dir)?;
-    let articles = files
-        .map(|file| {
-            let content = std::fs::read_to_string(file?.path())?;
-            let document: Document<Metadata> = parse_frontmatter::<Metadata>(&content)?;
-            Ok(Article {
-                date: document.metadata.date,
-                title: document.metadata.title,
-                description: document.metadata.description,
-                slug: document.metadata.slug,
-                content: document.content,
-            })
-        })
-        .collect::<anyhow::Result<Vec<_>>>()?;
-
-    Ok(articles)
-}
 
 /// Parses the front matter header of a Markdown file and returns
 /// the body of the Markdown.

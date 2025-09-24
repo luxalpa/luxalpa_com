@@ -1,3 +1,4 @@
+use crate::common::articles::{fetch_articles, Article};
 use leptos::prelude::*;
 use leptos_meta::Title;
 
@@ -9,7 +10,7 @@ pub fn BlogPage() -> impl IntoView {
         let articles = res.get()?;
 
         Some(view! {
-            <ul>
+            <ul class="entity-list">
                 {articles.into_iter().map(|article| view! {
                     <ArticleAbstract article=article.clone() />
                 }).collect_view()}
@@ -18,7 +19,7 @@ pub fn BlogPage() -> impl IntoView {
     };
 
     view! {
-        <div class="blog-page">
+        <div class="blog-page page">
             <Title text="Blog Articles"/>
             <h1>"Blog Articles"</h1>
             <Suspense>
@@ -39,27 +40,4 @@ fn ArticleAbstract(article: Article) -> impl IntoView {
             </a>
         </li>
     }
-}
-
-#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
-pub struct Article {
-    pub date: String,
-    pub title: String,
-    pub description: String,
-    pub slug: String,
-    pub content: String,
-}
-
-#[server]
-pub async fn fetch_articles() -> Result<Vec<Article>, ServerFnError> {
-    use leptos_actix::extract;
-    use std::ops::Deref;
-
-    let articles = extract::<actix_web::web::Data<Vec<Article>>>()
-        .await?
-        .deref()
-        .deref()
-        .clone();
-
-    Ok(articles)
 }

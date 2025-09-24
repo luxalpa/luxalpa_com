@@ -1,3 +1,5 @@
+use luxalpa_com::common::projects::load_projects;
+
 #[cfg(feature = "ssr")]
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -8,9 +10,10 @@ async fn main() -> std::io::Result<()> {
     use leptos_actix::{generate_route_list, LeptosRoutes};
     use leptos_meta::MetaTags;
     use luxalpa_com::app::*;
-    use luxalpa_com::server::markdown::load_articles;
+    use luxalpa_com::common::articles::load_articles;
 
     let articles = web::Data::new(load_articles().unwrap());
+    let projects = web::Data::new(load_projects().unwrap());
 
     let conf = get_configuration(None).unwrap();
     let addr = conf.leptos_options.site_addr;
@@ -29,6 +32,7 @@ async fn main() -> std::io::Result<()> {
             // serve the favicon from /favicon.ico
             .service(favicon)
             .app_data(articles.clone())
+            .app_data(projects.clone())
             .leptos_routes(routes.clone(), {
                 let leptos_options = leptos_options.clone();
                 move || {

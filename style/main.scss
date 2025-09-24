@@ -84,18 +84,13 @@ h2 {
   width: min(100%, 1000px);
 }
 
-.blog-page {
-  margin: 0 auto;
-  width: min(100%, 1000px);
-
-  ul {
-    padding: 0;
-    margin: 0;
-    display: grid;
-    gap: 24px;
-    justify-content: center;
-    grid-template-columns: 100%;
-  }
+.entity-list {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 24px;
+  justify-content: center;
+  grid-template-columns: 100%;
 
   li {
     list-style: none;
@@ -124,4 +119,9 @@ h2 {
       }
     }
   }
+}
+
+.page {
+  margin: 0 auto;
+  width: min(100%, 1000px);
 }

@@ -1,4 +1,4 @@
-use crate::common::articles::fetch_article;
+use crate::common::projects::fetch_project;
 use crate::components::richtext::RichText;
 use leptos::either::EitherOf3;
 use leptos::prelude::*;
@@ -7,52 +7,52 @@ use leptos_router::hooks::use_params;
 use leptos_router::params::Params;
 
 #[derive(Debug, serde::Deserialize, serde::Serialize, PartialEq, Clone, Params)]
-struct ArticlePageParams {
+struct ProjectPageParams {
     id: String,
 }
 
 #[component]
-pub fn ArticlePage() -> impl IntoView {
-    let params = use_params::<ArticlePageParams>();
+pub fn ProjectPage() -> impl IntoView {
+    let params = use_params::<ProjectPageParams>();
 
     let contents = move || {
         params.get().ok().map(|params| {
             view! {
-                <ArticleContents article_id=params.id />
+                <ProjectContents project_id=params.id />
             }
         })
     };
 
     view! {
-        <div class="article-page page">
+        <div class="project-page page">
             { contents }
         </div>
     }
 }
 
 #[component]
-fn ArticleContents(article_id: String) -> impl IntoView {
+fn ProjectContents(project_id: String) -> impl IntoView {
     // TODO: Error handling
-    let res = OnceResource::new_blocking(async { fetch_article(article_id).await.unwrap() });
+    let res = OnceResource::new_blocking(async { fetch_project(project_id).await.unwrap() });
 
     let contents = move || {
-        let Some(article) = res.get() else {
+        let Some(project) = res.get() else {
             return EitherOf3::A(view! {
                 "Loading..."
             });
         };
 
-        let Some(article) = article else {
+        let Some(project) = project else {
             return EitherOf3::B(view! {
-                "Article not found."
+                "Project not found."
             });
         };
 
         EitherOf3::C(view! {
-            <Title text=article.title.clone() />
+            <Title text=project.title.clone() />
             <div>
-                <h1>{article.title}</h1>
-                <div><RichText text=article.content /></div>
+                <h1>{project.title}</h1>
+                <div><RichText text=project.content /></div>
             </div>
         })
     };

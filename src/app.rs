@@ -3,6 +3,7 @@ use crate::pages::about_page::AboutPage;
 use crate::pages::article_page::ArticlePage;
 use crate::pages::blog_page::BlogPage;
 use crate::pages::home_page::HomePage;
+use crate::pages::project_page::ProjectPage;
 use crate::pages::projects_page::ProjectsPage;
 use crate::pages::resume_page::ResumePage;
 use leptos::prelude::*;
@@ -34,6 +35,7 @@ pub fn App() -> impl IntoView {
                     <Route path=path!("/blog") view=BlogPage />
                     <Route path=path!("/articles/:id") view=ArticlePage ssr=SsrMode::PartiallyBlocked />
                     <Route path=path!("/projects") view=ProjectsPage />
+                    <Route path=path!("/projects/:id") view=ProjectPage />
                     <Route path=path!("/resume") view=ResumePage />
                     <Route path=path!("/about") view=AboutPage />
                     <Route path=WildcardSegment("any") view=NotFound />
