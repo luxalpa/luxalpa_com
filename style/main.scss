@@ -14,6 +14,14 @@
   font-style: normal;
 }
 
+:root {
+  --text-color: #D2D2D2;
+  --text-color-highlight: #FFC300;
+  --text-color-highlight-2: #FF6A00;
+  --text-color-hover: white;
+  --text-color-highlight-hover: #ffeaaa;
+}
+
 body {
   font-family: LTMuseum, sans-serif;
 
@@ -39,6 +47,24 @@ body {
     text-transform: uppercase;
     font-size: 20px;
     font-weight: bold;
+
+    transition: color 0.15s ease-out;
+    transition-property: color, text-shadow;
+
+    &[aria-current="page"] {
+      color: var(--text-color-highlight);
+      text-shadow: 0 0 25px rgba(255, 195, 0, 0.5);
+
+      &:hover {
+        text-shadow: 0 0 25px rgba(255, 195, 0, 0.5), 0 0 10px var(--text-color-hover);
+        color: var(--text-color-highlight-hover);
+      }
+    }
+
+    &:hover:not([aria-current="page"]) {
+      color: var(--text-color-hover);
+      text-shadow: 0 0 10px var(--text-color-hover);
+    }
   }
 
   .logo-title {
@@ -63,12 +89,6 @@ body {
   }
 }
 
-:root {
-  --text-color: #D2D2D2;
-  --text-color-highlight: #FFC300;
-  --text-color-highlight-2: #FF6A00;
-}
-
 main {
   margin-inline: 48px;
 }
@@ -77,11 +97,6 @@ h2 {
   font-size: 24px;
   font-weight: bold;
   color: var(--text-color-highlight);
-}
-
-.article-page {
-  margin: 0 auto;
-  width: min(100%, 1000px);
 }
 
 .entity-list {
