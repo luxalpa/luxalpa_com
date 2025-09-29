@@ -7,6 +7,7 @@ use crate::pages::project_page::ProjectPage;
 use crate::pages::projects_page::ProjectsPage;
 use crate::pages::resume_page::ResumePage;
 use leptos::prelude::*;
+use leptos_fetch::QueryClient;
 use leptos_meta::{provide_meta_context, Stylesheet, Title};
 use leptos_router::{
     components::{Route, Router, Routes},
@@ -17,6 +18,8 @@ use leptos_router::{
 pub fn App() -> impl IntoView {
     // Provides context that manages stylesheets, titles, meta tags, etc.
     provide_meta_context();
+
+    QueryClient::new().provide();
 
     view! {
         // injects a stylesheet into the document <head>

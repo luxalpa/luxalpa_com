@@ -10,8 +10,7 @@ pub struct Article {
     pub content: String,
 }
 
-#[derive(serde::Deserialize)]
-#[cfg(feature = "ssr")]
+#[derive(serde::Deserialize, serde::Serialize, Clone, Debug)]
 pub struct ArticleMetadata {
     pub date: String,
     pub title: String,
@@ -21,8 +20,19 @@ pub struct ArticleMetadata {
     pub slug: String,
 }
 
+impl From<Article> for ArticleMetadata {
+    fn from(article: Article) -> Self {
+        Self {
+            date: article.date,
+            title: article.title,
+            description: article.description,
+            slug: article.slug,
+        }
+    }
+}
+
 #[server]
-pub async fn fetch_articles() -> Result<Vec<Article>, ServerFnError> {
+pub async fn fetch_articles() -> Result<Vec<ArticleMetadata>, ServerFnError> {
     use leptos_actix::extract;
     use std::ops::Deref;
 
@@ -32,7 +42,9 @@ pub async fn fetch_articles() -> Result<Vec<Article>, ServerFnError> {
         .deref()
         .clone();
 
-    Ok(articles)
+    let metadata = articles.into_iter().map(ArticleMetadata::from).collect();
+
+    Ok(metadata)
 }
 
 #[server]

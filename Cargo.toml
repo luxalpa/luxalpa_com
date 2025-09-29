@@ -20,6 +20,7 @@ markdown = { version = "1.0.0", features = ["serde"] }
 anyhow = { version = "1.0.100", features = ["backtrace"] }
 serde = { version = "1.0.226" }
 serde_yaml = { version = "0.9.33", optional = true }
+leptos-fetch = { version = "0.4.5" }
 
 [features]
 csr = ["leptos/csr"]
@@ -32,6 +33,7 @@ ssr = [
     "leptos/ssr",
     "leptos_meta/ssr",
     "leptos_router/ssr",
+    "leptos-fetch/ssr",
 ]
 
 # Defines a size-optimized profile for the WASM bundle in release mode

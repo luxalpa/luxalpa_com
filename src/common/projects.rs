@@ -10,8 +10,7 @@ pub struct Project {
     pub content: String,
 }
 
-#[derive(serde::Deserialize)]
-#[cfg(feature = "ssr")]
+#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
 pub struct ProjectMetadata {
     pub date: String,
     pub title: String,
@@ -21,8 +20,19 @@ pub struct ProjectMetadata {
     pub slug: String,
 }
 
+impl From<Project> for ProjectMetadata {
+    fn from(project: Project) -> Self {
+        Self {
+            date: project.date,
+            title: project.title,
+            description: project.description,
+            slug: project.slug,
+        }
+    }
+}
+
 #[server]
-pub async fn fetch_projects() -> Result<Vec<Project>, ServerFnError> {
+pub async fn fetch_projects() -> Result<Vec<ProjectMetadata>, ServerFnError> {
     use leptos_actix::extract;
     use std::ops::Deref;
 
@@ -32,7 +42,9 @@ pub async fn fetch_projects() -> Result<Vec<Project>, ServerFnError> {
         .deref()
         .clone();
 
-    Ok(projects)
+    let metadata = projects.into_iter().map(ProjectMetadata::from).collect();
+
+    Ok(metadata)
 }
 
 #[server]

@@ -1,4 +1,4 @@
-use crate::common::articles::{fetch_articles, Article};
+use crate::common::articles::{fetch_articles, ArticleMetadata};
 use leptos::prelude::*;
 use leptos_meta::Title;
 
@@ -11,8 +11,8 @@ pub fn BlogPage() -> impl IntoView {
 
         Some(view! {
             <ul class="entity-list">
-                {articles.into_iter().map(|article| view! {
-                    <ArticleAbstract article=article.clone() />
+                {articles.into_iter().map(|article_meta| view! {
+                    <ArticleAbstract article_meta=article_meta.clone() />
                 }).collect_view()}
             </ul>
         })
@@ -30,13 +30,13 @@ pub fn BlogPage() -> impl IntoView {
 }
 
 #[component]
-fn ArticleAbstract(article: Article) -> impl IntoView {
+fn ArticleAbstract(article_meta: ArticleMetadata) -> impl IntoView {
     view! {
         <li>
-            <a href={format!("/articles/{}", article.slug)}>
-                <h2>{article.title}</h2>
-                <div class="date">{article.date}</div>
-                <div class="description">{article.description}</div>
+            <a href={format!("/articles/{}", article_meta.slug)}>
+                <h2>{article_meta.title}</h2>
+                <div class="date">{article_meta.date}</div>
+                <div class="description">{article_meta.description}</div>
             </a>
         </li>
     }

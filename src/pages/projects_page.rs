@@ -1,4 +1,4 @@
-use crate::common::projects::{fetch_projects, Project};
+use crate::common::projects::{fetch_projects, ProjectMetadata};
 use leptos::prelude::*;
 use leptos_meta::Title;
 
@@ -30,7 +30,7 @@ pub fn ProjectsPage() -> impl IntoView {
 }
 
 #[component]
-fn ProjectAbstract(project: Project) -> impl IntoView {
+fn ProjectAbstract(project: ProjectMetadata) -> impl IntoView {
     view! {
         <li>
             <a href={format!("/projects/{}", project.slug)}>
