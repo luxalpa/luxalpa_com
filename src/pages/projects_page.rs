@@ -1,6 +1,8 @@
 use crate::app::MyGlobalRes;
-use crate::common::projects::ProjectMetadata;
+use crate::common::projects::{fetch_project, ProjectMetadata};
 use leptos::prelude::*;
+use leptos::task::spawn_local;
+use leptos_fetch::QueryClient;
 use leptos_meta::Title;
 
 #[component]
@@ -33,9 +35,21 @@ pub fn ProjectsPage() -> impl IntoView {
 
 #[component]
 fn ProjectAbstract(project: ProjectMetadata) -> impl IntoView {
+    let slug = project.slug.clone();
+
+    let prefetch_project = move |_| {
+        let client: QueryClient = expect_context();
+
+        let slug = slug.clone();
+
+        spawn_local(async move {
+            client.prefetch_query(fetch_project, slug).await;
+        });
+    };
+
     view! {
         <li>
-            <a href={format!("/projects/{}", project.slug)}>
+            <a href={format!("/projects/{}", project.slug)} on:mouseenter=prefetch_project>
                 <h2>{project.title}</h2>
                 <div class="date">{project.date}</div>
                 <div class="description">{project.description}</div>
