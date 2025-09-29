@@ -1,13 +1,17 @@
 use crate::common::projects::{fetch_projects, ProjectMetadata};
 use leptos::prelude::*;
+use leptos_fetch::QueryClient;
 use leptos_meta::Title;
 
 #[component]
 pub fn ProjectsPage() -> impl IntoView {
-    let res = OnceResource::new_blocking(async { fetch_projects().await.unwrap() });
+    let client: QueryClient = expect_context();
+
+    let res = client.resource_blocking(fetch_projects, || ());
 
     let projects_list = move || {
-        let projects = res.get()?;
+        // TODO: Error handling
+        let projects = res.get()?.unwrap_or_default();
 
         Some(view! {
             <ul class="entity-list">

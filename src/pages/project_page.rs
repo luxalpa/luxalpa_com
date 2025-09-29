@@ -2,6 +2,7 @@ use crate::common::projects::fetch_project;
 use crate::components::richtext::RichText;
 use leptos::either::EitherOf3;
 use leptos::prelude::*;
+use leptos_fetch::QueryClient;
 use leptos_meta::Title;
 use leptos_router::hooks::use_params;
 use leptos_router::params::Params;
@@ -33,7 +34,9 @@ pub fn ProjectPage() -> impl IntoView {
 #[component]
 fn ProjectContents(project_id: String) -> impl IntoView {
     // TODO: Error handling
-    let res = OnceResource::new_blocking(async { fetch_project(project_id).await.unwrap() });
+    let client: QueryClient = expect_context();
+
+    let res = client.resource_blocking(fetch_project, move || project_id.clone());
 
     let contents = move || {
         let Some(project) = res.get() else {
@@ -42,7 +45,7 @@ fn ProjectContents(project_id: String) -> impl IntoView {
             });
         };
 
-        let Some(project) = project else {
+        let Ok(Some(project)) = project else {
             return EitherOf3::B(view! {
                 "Project not found."
             });

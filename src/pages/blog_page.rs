@@ -1,13 +1,16 @@
 use crate::common::articles::{fetch_articles, ArticleMetadata};
 use leptos::prelude::*;
+use leptos_fetch::QueryClient;
 use leptos_meta::Title;
 
 #[component]
 pub fn BlogPage() -> impl IntoView {
-    let res = OnceResource::new_blocking(async { fetch_articles().await.unwrap() });
+    let client: QueryClient = expect_context();
+
+    let res = client.resource_blocking(fetch_articles, || ());
 
     let article_list = move || {
-        let articles = res.get()?;
+        let articles = res.get()?.unwrap_or_default();
 
         Some(view! {
             <ul class="entity-list">

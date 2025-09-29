@@ -2,6 +2,7 @@ use crate::common::articles::fetch_article;
 use crate::components::richtext::RichText;
 use leptos::either::EitherOf3;
 use leptos::prelude::*;
+use leptos_fetch::QueryClient;
 use leptos_meta::Title;
 use leptos_router::hooks::use_params;
 use leptos_router::params::Params;
@@ -33,7 +34,9 @@ pub fn ArticlePage() -> impl IntoView {
 #[component]
 fn ArticleContents(article_id: String) -> impl IntoView {
     // TODO: Error handling
-    let res = OnceResource::new_blocking(async { fetch_article(article_id).await.unwrap() });
+    let client: QueryClient = expect_context();
+
+    let res = client.resource_blocking(fetch_article, move || article_id.clone());
 
     let contents = move || {
         let Some(article) = res.get() else {
@@ -42,7 +45,7 @@ fn ArticleContents(article_id: String) -> impl IntoView {
             });
         };
 
-        let Some(article) = article else {
+        let Ok(Some(article)) = article else {
             return EitherOf3::B(view! {
                 "Article not found."
             });
