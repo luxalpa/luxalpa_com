@@ -1,15 +1,13 @@
-use crate::common::articles::{fetch_articles, ArticleMetadata};
+use crate::app::MyGlobalRes;
+use crate::common::articles::ArticleMetadata;
 use leptos::prelude::*;
-use leptos_fetch::QueryClient;
 use leptos_meta::Title;
 
 #[component]
 pub fn BlogPage() -> impl IntoView {
-    let client: QueryClient = expect_context();
-
-    let res = client.resource_blocking(fetch_articles, || ());
-
     let article_list = move || {
+        let res = expect_context::<MyGlobalRes>().articles;
+
         let articles = res.get()?.unwrap_or_default();
 
         Some(view! {
