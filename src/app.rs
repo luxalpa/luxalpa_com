@@ -28,7 +28,7 @@ pub fn App() -> impl IntoView {
     view! {
         <Stylesheet id="leptos" href="/pkg/luxalpa_com.css"/>
 
-        <Title text="Luxalpa's Lair"/>
+        <Title text="Luxalpa's Lair" formatter=|t| format!("Luxalpa’s Lair - {}", t)/>
 
         <Router>
             <Navigation />

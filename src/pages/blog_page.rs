@@ -24,7 +24,6 @@ pub fn BlogPage() -> impl IntoView {
     view! {
         <div class="blog-page page">
             <Title text="Blog Articles"/>
-            <h1>"Blog Articles"</h1>
             <Suspense>
                 {article_list}
             </Suspense>

@@ -30,7 +30,7 @@ pub fn Navigation() -> impl IntoView {
         <nav class="navigation">
             <div class="logo-title">
                 <img src="/assets/logo-small.jpg" alt="logo" class="logo-small" />
-                <div class="logo-text">{title}</div>
+                <h1 class="logo-text">{title}</h1>
             </div>
 
             <div class="navlinks">

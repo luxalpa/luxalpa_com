@@ -38,8 +38,8 @@ body {
 
 .navigation {
   display: grid;
-  grid-template-columns: 0 1fr 0 1fr 0;
-  grid-template-areas: ". logo . links .";
+  grid-template-columns: 10% 1fr 1fr 10%;
+  grid-template-areas: ". logo links .";
 
   a {
     color: #D2D2D2;
@@ -76,7 +76,11 @@ body {
     align-items: center;
     gap: 24px;
     margin-block: 10px;
-    justify-content: center;
+    justify-content: start;
+  }
+
+  .logo-text {
+    font-size: 36px;
   }
 
   .navlinks {
@@ -84,7 +88,7 @@ body {
 
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: end;
     gap: 46px;
   }
 }
