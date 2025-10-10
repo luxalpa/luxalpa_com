@@ -1,15 +1,15 @@
-use crate::app::MyGlobalRes;
-use crate::common::projects::{fetch_project, ProjectMetadata};
+use crate::common::projects::{fetch_project, fetch_projects, ProjectMetadata};
 use leptos::prelude::*;
-use leptos::task::spawn_local;
+use leptos::task::spawn_local_scoped;
 use leptos_fetch::QueryClient;
 use leptos_meta::Title;
 
 #[component]
 pub fn ProjectsPage() -> impl IntoView {
-    let projects_list = move || {
-        let res = expect_context::<MyGlobalRes>().projects;
+    let client = expect_context::<QueryClient>();
+    let res = client.resource_blocking(fetch_projects, || ());
 
+    let projects_list = move || {
         // TODO: Error handling
         let projects = res.get()?.unwrap_or_default();
 
@@ -42,7 +42,7 @@ fn ProjectAbstract(project: ProjectMetadata) -> impl IntoView {
 
         let slug = slug.clone();
 
-        spawn_local(async move {
+        spawn_local_scoped(async move {
             client.prefetch_query(fetch_project, slug).await;
         });
     };

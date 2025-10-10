@@ -140,3 +140,86 @@ h2 {
   margin: 0 auto;
   width: min(100%, 1000px);
 }
+
+.router-outlet-0 main {
+  view-transition-name: main;
+}
+
+//.router-back main {
+//  view-transition-name: main-back;
+//}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+::view-transition-old(main) {
+  animation: 0.5s fadeOut;
+}
+
+::view-transition-new(main) {
+  animation: 0.5s fadeIn;
+}
+
+::view-transition-old(main-back) {
+  animation: 0.5s slideOutBack;
+}
+
+::view-transition-new(main-back) {
+  animation: 0.5s slideInBack;
+}
+
+
+@keyframes slideIn {
+  from {
+    transform: translate(100vw, 0);
+  }
+  to {
+    transform: translate(0px, 0px);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translate(0px, 0px);
+  }
+  to {
+    transform: translate(-100vw, 0);
+  }
+}
+
+@keyframes slideInBack {
+  from {
+    transform: translate(-100vw, 0);
+  }
+
+  to {
+    transform: translate(0px, 0px);
+  }
+}
+
+@keyframes slideOutBack {
+  from {
+    transform: translate(0px, 0px);
+  }
+
+  to {
+    transform: translate(100vw, 0);
+  }
+}

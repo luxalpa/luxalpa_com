@@ -1,15 +1,15 @@
-use crate::app::MyGlobalRes;
-use crate::common::articles::ArticleMetadata;
+use crate::common::articles::{fetch_articles, ArticleMetadata};
 use leptos::prelude::*;
-use leptos::task::spawn_local;
+use leptos::reactive::spawn_local_scoped;
 use leptos_fetch::QueryClient;
 use leptos_meta::Title;
 
 #[component]
 pub fn BlogPage() -> impl IntoView {
-    let article_list = move || {
-        let res = expect_context::<MyGlobalRes>().articles;
+    let client = expect_context::<QueryClient>();
+    let res = client.resource_blocking(fetch_articles, || ());
 
+    let article_list = move || {
         let articles = res.get()?.unwrap_or_default();
 
         Some(view! {
@@ -41,7 +41,7 @@ fn ArticleAbstract(article_meta: ArticleMetadata) -> impl IntoView {
 
         let slug = slug.clone();
 
-        spawn_local(async move {
+        spawn_local_scoped(async move {
             client
                 .prefetch_query(crate::common::articles::fetch_article, slug)
                 .await;
