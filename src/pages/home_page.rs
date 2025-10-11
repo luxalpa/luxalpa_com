@@ -5,6 +5,11 @@ use leptos_meta::Title;
 pub fn HomePage() -> impl IntoView {
     view! {
         <Title text="Home"/>
-        <div></div>
+        <div class="page home-page">
+            <p class="core">"I am Luxalpa."</p>
+            <p class="core">
+                "I design, build, refactor, test, debug, reverse-engineer and fix Applications, Websites, Plugins, Games and Mods."
+            </p>
+        </div>
     }
 }

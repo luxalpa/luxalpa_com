@@ -81,6 +81,9 @@ body {
 
   .logo-text {
     font-size: 36px;
+    margin: 0;
+    font-weight: bold;
+    padding: 0;
   }
 
   .navlinks {
@@ -143,6 +146,15 @@ h2 {
 .page {
   margin: 0 auto;
   width: min(100%, 1000px);
+}
+
+.home-page {
+  .core {
+    text-align: center;
+    color: var(--text-color);
+    font-size: 24px;
+    font-weight: bold;
+  }
 }
 
 .router-outlet-0 main {

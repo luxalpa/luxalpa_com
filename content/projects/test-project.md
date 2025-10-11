@@ -1,5 +1,5 @@
 ---
-date: "2025-05-01"
+date: "2025"
 title: "Test Project"
 abstract: "This is a test project."
 slug: "test-project"
