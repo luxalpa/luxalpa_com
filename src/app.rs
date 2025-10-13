@@ -40,7 +40,7 @@ pub fn App() -> impl IntoView {
                     <Route path=path!("/projects") view=ProjectsPage />
                     <Route path=path!("/projects/:id") view=ProjectPage />
                     <Route path=path!("/resume") view=ResumePage />
-                    <Route path=path!("/about") view=AboutPage />
+                    <Route path=path!("/contact") view=AboutPage />
                     <Route path=WildcardSegment("any") view=NotFound />
                 </Routes>
             </main>

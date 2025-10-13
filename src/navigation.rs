@@ -19,7 +19,7 @@ pub fn Navigation() -> impl IntoView {
             "/blog" => "Blog",
             "/projects" => "Projects",
             "/resume" => "Resume",
-            "/about" => return "About Luxalpa".to_string(),
+            "/contact" => return "Contact Luxalpa".to_string(),
             _ => "Lair",
         };
 
@@ -38,7 +38,7 @@ pub fn Navigation() -> impl IntoView {
                 <A href="/blog">"Blog"</A>
                 <A href="/projects">"Projects"</A>
                 <A href="/resume">"Resume"</A>
-                <A href="/about">"About"</A>
+                <A href="/contact">"Contact"</A>
             </div>
         </nav>
     }
