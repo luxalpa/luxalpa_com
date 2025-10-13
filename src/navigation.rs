@@ -37,7 +37,7 @@ pub fn Navigation() -> impl IntoView {
                 <A href="/">"Home"</A>
                 <A href="/blog">"Blog"</A>
                 <A href="/projects">"Projects"</A>
-                <A href="/resume">"Resume"</A>
+                // <A href="/resume">"Resume"</A>
                 <A href="/contact">"Contact"</A>
             </div>
         </nav>
