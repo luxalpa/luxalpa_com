@@ -1,0 +1,19 @@
+[build]
+rustflags = [
+    "--cfg=web_sys_unstable_apis",
+    "--cfg=erase_components",
+    "-Z", "threads=12",
+    "-Zwasm-c-abi=spec",
+]
+
+[target.wasm32-unknown-unknown]
+rustflags = [
+    "--cfg=web_sys_unstable_apis",
+    "--cfg=erase_components",
+    "-Z", "threads=12",
+    "-Zwasm-c-abi=spec",
+    "--cfg", 'getrandom_backend="wasm_js"',
+]
+
+[net]
+git-fetch-with-cli = true

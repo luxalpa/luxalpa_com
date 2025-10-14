@@ -1,45 +1,9 @@
-# Use postgres/example user/password credentials
 services:
-  db:
-    image: postgres:16-alpine
-    restart: always
-    # set shared memory limit when using docker-compose
-    shm_size: 128mb
-    # or set shared memory limit when deploy via swarm stack
-    #volumes:
-    #  - type: tmpfs
-    #    target: /dev/shm
-    #    tmpfs:
-    #      size: 134217728 # 128*2^20 bytes = 128Mb
-    environment:
-      POSTGRES_PASSWORD: example
-    ports:
-        - "5432:5432"
-    volumes:
-      - draconic-horizons-db:/var/lib/postgresql/data
-      - ./ca/server.crt:/var/lib/postgresql/server.crt
-      - ./ca/server.key:/var/lib/postgresql/server.key
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready" ]
-    command: -c ssl=on -c ssl_cert_file=/var/lib/postgresql/server.crt -c ssl_key_file=/var/lib/postgresql/server.key
-
-  db-dev:
-    extends:
-      service: db
-    command: -c ssl=off
-    profiles: [dev]
-
   webserver:
-    image: draconic-horizons:latest
+    image: luxalpa_com:latest
     restart: always
     environment:
-      DB_HOST: "db"
-      OTEL_EXPORTER_ENDPOINT: "jaeger"
-      OTEL_METRICS_EXPORTER_ENDPOINT: "prometheus"
-      DB_PASSWORD_FILE: /run/secrets/postgres_password
       USE_PROD_TLS: 1
-    secrets:
-      - postgres_password
     ports:
       - "80:3000"
       - "443:443"
@@ -51,119 +15,17 @@ services:
         condition: service_healthy
 
   webserver-dev:
+    image: luxalpa_com:latest
     restart: unless-stopped
     ports:
       - "3000:3000"
     environment:
-      DB_HOST: "db-dev"
-      OTEL_EXPORTER_ENDPOINT: "jaeger-dev"
-      OTEL_METRICS_EXPORTER_ENDPOINT: "prometheus-dev"
-      DB_PASSWORD_FILE: /run/secrets/postgres_password
       USE_PROD_TLS: 0
-    profiles: [dev]
-    image: draconic-horizons:latest
+    profiles: [ dev ]
     secrets:
       - postgres_password
     volumes:
-      - card-cache:/app/cache
       - acme-cache:/app/acme
-    depends_on:
-      db-dev:
-        condition: service_healthy
-
-  jaeger:
-    image: jaegertracing/jaeger:2.6.0
-    restart: always
-    volumes:
-      - ./jaeger-config.yaml:/etc/jaeger/config.yml
-      - jaeger_badger_data:/tmp/jaeger
-    command: ["--config", "/etc/jaeger/config.yml"]
-    depends_on:
-      prepare-data-dir:
-        condition: service_completed_successfully
-
-  jaeger-dev:
-    restart: unless-stopped
-    extends:
-      service: jaeger
-    ports:
-      - "16686:16686"
-      - "4317:4317"
-    profiles: [dev]
-
-  jaeger-nginx:
-    image: nginx-basic-auth
-    restart: always
-    depends_on:
-      - jaeger
-    environment:
-      - FORWARD_HOST=jaeger
-      - FORWARD_PORT=16686
-      - BASIC_USERNAME=luxalpa
-      - BASIC_PASSWORD_FILE=/run/secrets/jaeger_password
-    ports:
-      - "16686:16686"
-    secrets:
-      - jaeger_password
-
-  prepare-data-dir:
-    user: root
-    image: busybox
-    command: "/bin/sh -c 'mkdir -p /badger/data
-              && touch /badger/data/.initialized 
-              && chown -R 10001:10001 /badger/data 
-              && mkdir -p /badger/key 
-              && chown -R 10001:10001 /badger/key'"
-    volumes:
-      - jaeger_badger_data:/badger
-
-  prometheus-nginx:
-    image: nginx-basic-auth
-    restart: always
-    depends_on:
-      - prometheus
-    environment:
-      - FORWARD_HOST=prometheus
-      - FORWARD_PORT=9090
-      - BASIC_USERNAME=luxalpa
-      - BASIC_PASSWORD_FILE=/run/secrets/prometheus_password
-    ports:
-      - "9090:16686"
-    secrets:
-      - prometheus_password
-
-  prometheus:
-    image: prom/prometheus
-    restart: always
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-#      - ./prometheus-web.yml:/etc/prometheus/web.yml
-      - prometheus_data:/prometheus
-    command:
-      - "--config.file=/etc/prometheus/prometheus.yml"
-      - "--storage.tsdb.path=/prometheus"
-#      - "--web.config.file=/etc/prometheus/web.yml"
-      - "--web.enable-otlp-receiver"
-
-  prometheus-dev:
-    restart: unless-stopped
-    extends:
-      service: prometheus
-    ports:
-      - "9090:9090"
-    profiles: [dev]
 
 volumes:
-  draconic-horizons-db:
-  card-cache:
   acme-cache:
-  jaeger_badger_data:
-  prometheus_data:
-
-secrets:
-  jaeger_password:
-    file: ./secrets/jaeger-password.txt
-  prometheus_password:
-    file: ./secrets/prometheus-password.txt
-  postgres_password:
-    file: ./secrets/postgres-password.txt

@@ -1,0 +1,9 @@
+[unstable]
+build-std = ["std", "panic_abort", "core", "alloc"]
+build-std-features = ["panic_immediate_abort"]
+
+[target.wasm32-unknown-unknown]
+rustflags = [
+    "-Zlocation-detail=none",
+    "-Zfmt-debug=none"
+]
