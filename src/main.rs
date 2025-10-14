@@ -19,18 +19,21 @@ async fn main() -> std::io::Result<()> {
     let addr = conf.leptos_options.site_addr;
     let routes = generate_route_list(App);
 
-    HttpServer::new(move || {
+    #[cfg(feature = "ssl")]
+    let rustls_config = luxalpa_com::server::ssl().await;
+
+    let srv = HttpServer::new(move || {
         // Generate the list of routes in your Leptos App
         let leptos_options = &conf.leptos_options;
         let site_root = leptos_options.site_root.clone().to_string();
 
-        App::new()
+        let app = App::new()
             // serve JS/WASM/CSS from `pkg`
             .service(Files::new("/pkg", format!("{site_root}/pkg")))
             // serve other assets from the `assets` directory
             .service(Files::new("/assets", &site_root))
             // serve the favicon from /favicon.ico
-            .service(favicon)
+            // .service(favicon)
             .app_data(articles.clone())
             .app_data(projects.clone())
             .leptos_routes(routes.clone(), {
@@ -53,25 +56,32 @@ async fn main() -> std::io::Result<()> {
                     }
                 }
             })
-            .app_data(web::Data::new(leptos_options.to_owned()))
-        //.wrap(middleware::Compress::default())
+            .app_data(web::Data::new(leptos_options.to_owned()));
+
+        #[cfg(not(debug_assertions))]
+        let app = app.wrap(actix_web::middleware::Compress::default());
+
+        app
     })
-        .bind(&addr)?
-        .run()
-        .await
+        .bind(&addr)?;
+
+    #[cfg(feature = "ssl")]
+    let srv = srv.bind_rustls_0_23(("0.0.0.0", 443), rustls_config)?;
+
+    srv.run().await
 }
 
-#[cfg(feature = "ssr")]
-#[actix_web::get("favicon.ico")]
-async fn favicon(
-    leptos_options: actix_web::web::Data<leptos::config::LeptosOptions>,
-) -> actix_web::Result<actix_files::NamedFile> {
-    let leptos_options = leptos_options.into_inner();
-    let site_root = &leptos_options.site_root;
-    Ok(actix_files::NamedFile::open(format!(
-        "{site_root}/favicon.ico"
-    ))?)
-}
+// #[cfg(feature = "ssr")]
+// #[actix_web::get("favicon.ico")]
+// async fn favicon(
+//     leptos_options: actix_web::web::Data<leptos::config::LeptosOptions>,
+// ) -> actix_web::Result<actix_files::NamedFile> {
+//     let leptos_options = leptos_options.into_inner();
+//     let site_root = &leptos_options.site_root;
+//     Ok(actix_files::NamedFile::open(format!(
+//         "{site_root}/favicon.ico"
+//     ))?)
+// }
 
 #[cfg(not(any(feature = "ssr", feature = "csr")))]
 pub fn main() {

@@ -10,7 +10,6 @@ crate-type = ["cdylib", "rlib"]
 actix-files = { version = "0.6", optional = true }
 actix-web = { version = "4", optional = true, features = ["macros"] }
 console_error_panic_hook = "0.1"
-http = { version = "1.3.1", optional = true }
 leptos = { version = "0.8.2", features = ["nightly"] }
 leptos_meta = { version = "0.8.2" }
 leptos_actix = { version = "0.8.2", optional = true }
@@ -21,6 +20,10 @@ anyhow = { version = "1.0.100", features = ["backtrace"] }
 serde = { version = "1.0.226" }
 serde_yaml = { version = "0.9.33", optional = true }
 leptos-fetch = { version = "0.4.5" }
+log = { version = "0.4.28", optional = true }
+env_logger = { version = "0.11.8", optional = true }
+futures-util = { version = "0.3.31", optional = true }
+rustls-acme = { version = "0.14.1", optional = true }
 
 [features]
 csr = ["leptos/csr"]
@@ -30,10 +33,17 @@ ssr = [
     "dep:actix-web",
     "dep:leptos_actix",
     "dep:serde_yaml",
+    "dep:log",
+    "dep:env_logger",
     "leptos/ssr",
     "leptos_meta/ssr",
     "leptos_router/ssr",
     "leptos-fetch/ssr",
+]
+ssl = [
+    "dep:rustls-acme",
+    "dep:futures-util",
+    "actix-web/rustls-0_23"
 ]
 
 # Defines a size-optimized profile for the WASM bundle in release mode
