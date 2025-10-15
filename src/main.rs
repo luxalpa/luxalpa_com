@@ -1,3 +1,4 @@
+use leptos_meta::HashedStylesheet;
 use luxalpa_com::common::projects::load_projects;
 
 #[cfg(feature = "ssr")]
@@ -20,7 +21,7 @@ async fn main() -> std::io::Result<()> {
     let routes = generate_route_list(App);
 
     #[cfg(feature = "ssl")]
-    let rustls_config = luxalpa_com::server::ssl().await;
+    let rustls_config = luxalpa_com::server::ssl::ssl().await;
 
     let srv = HttpServer::new(move || {
         // Generate the list of routes in your Leptos App
@@ -47,6 +48,7 @@ async fn main() -> std::io::Result<()> {
                                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
                                 <AutoReload options=leptos_options.clone() />
                                 <HydrationScripts options=leptos_options.clone()/>
+                                <HashedStylesheet id="leptos" options=leptos_options.clone() />
                                 <MetaTags/>
                             </head>
                             <body>

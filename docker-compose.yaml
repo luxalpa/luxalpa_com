@@ -8,11 +8,8 @@ services:
       - "80:3000"
       - "443:443"
     volumes:
-      - card-cache:/app/cache
       - acme-cache:/app/acme
-    depends_on:
-      db:
-        condition: service_healthy
+      - ./content:/app/content
 
   webserver-dev:
     image: luxalpa_com:latest
@@ -22,10 +19,9 @@ services:
     environment:
       USE_PROD_TLS: 0
     profiles: [ dev ]
-    secrets:
-      - postgres_password
     volumes:
       - acme-cache:/app/acme
+      - ./content:/app/content
 
 volumes:
   acme-cache:

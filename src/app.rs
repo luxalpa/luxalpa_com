@@ -10,7 +10,7 @@ use crate::pages::projects_page::ProjectsPage;
 use crate::pages::resume_page::ResumePage;
 use leptos::prelude::*;
 use leptos_fetch::QueryClient;
-use leptos_meta::{provide_meta_context, Stylesheet, Title};
+use leptos_meta::{provide_meta_context, Title};
 use leptos_router::{
     components::{Route, Router, Routes},
     path, SsrMode, StaticSegment, WildcardSegment,
@@ -26,8 +26,6 @@ pub fn App() -> impl IntoView {
     client.resource_blocking(fetch_projects, || ());
 
     view! {
-        <Stylesheet id="leptos" href="/pkg/luxalpa_com.css"/>
-
         <Title text="Luxalpa's Lair" formatter=|t| format!("Luxalpa’s Lair - {}", t)/>
 
         <Router>

@@ -1,8 +1,6 @@
 # Get started with a build env with Rust nightly
-FROM instrumentisto/rust:nightly-2025-04-17 AS builder
+FROM rust:1.90.0-bookworm AS builder
 
-# RUN apk update && \
-#     apk add --no-cache bash binaryen gcc git g++ libc-dev make npm openssl-dev protobuf-dev protoc
 RUN apt-get update -y \
     && apt-get install -y --no-install-recommends clang npm musl-tools musl-dev lld
 

@@ -220,40 +220,40 @@ h2 {
 }
 
 
-@keyframes slideIn {
-  from {
-    transform: translate(100vw, 0);
-  }
-  to {
-    transform: translate(0px, 0px);
-  }
-}
+//@keyframes slideIn {
+//  from {
+//    transform: translate(100vw, 0);
+//  }
+//  to {
+//    transform: translate(0px, 0px);
+//  }
+//}
+//
+//@keyframes slideOut {
+//  from {
+//    transform: translate(0px, 0px);
+//  }
+//  to {
+//    transform: translate(-100vw, 0);
+//  }
+//}
 
-@keyframes slideOut {
-  from {
-    transform: translate(0px, 0px);
-  }
-  to {
-    transform: translate(-100vw, 0);
-  }
-}
-
-@keyframes slideInBack {
-  from {
-    transform: translate(-100vw, 0);
-  }
-
-  to {
-    transform: translate(0px, 0px);
-  }
-}
-
-@keyframes slideOutBack {
-  from {
-    transform: translate(0px, 0px);
-  }
-
-  to {
-    transform: translate(100vw, 0);
-  }
-}
+//@keyframes slideInBack {
+//  from {
+//    transform: translate(-100vw, 0);
+//  }
+//
+//  to {
+//    transform: translate(0px, 0px);
+//  }
+//}
+//
+//@keyframes slideOutBack {
+//  from {
+//    transform: translate(0px, 0px);
+//  }
+//
+//  to {
+//    transform: translate(100vw, 0);
+//  }
+//}
