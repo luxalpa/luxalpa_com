@@ -20,6 +20,7 @@
   --text-color-highlight-2: #FF6A00;
   --text-color-hover: white;
   --text-color-highlight-hover: #ffeaaa;
+  --bgcolor: #3B3B3B;
 }
 
 body, html {
@@ -41,9 +42,58 @@ body {
 }
 
 .navigation {
-  display: grid;
-  grid-template-columns: 10% auto auto 10%;
-  grid-template-areas: ". logo links .";
+  position: sticky;
+  top: 0;
+
+  //mask-image: linear-gradient(
+  //                to bottom,
+  //                black 0% 50%,
+  //                transparent 50% 100%
+  //);
+  background: linear-gradient(
+                  to bottom,
+                  var(--bgcolor) 0% 80%,
+                  transparent 100%
+  );
+
+  padding-bottom: 15px;
+
+  //border: 1px solid red;
+
+  .nav-content {
+    display: grid;
+    grid-template-columns: 10% auto auto 10%;
+    grid-template-areas: ". logo links .";
+    position: relative;
+  }
+
+  .menu.icon {
+    display: none;
+    grid-area: links;
+    align-self: center;;
+    justify-self: end;
+    font-size: 32px;
+    cursor: pointer;
+  }
+
+  .backdrop {
+    display: none;
+    //position: absolute;
+    //inset: 0;
+    //height: 200%;
+    //background: linear-gradient(
+    //                to bottom,
+    //                #3B3B3B,
+    //                transparent 50%
+    //);
+    //backdrop-filter: blur(16px);
+    //mask-image: linear-gradient(
+    //                to bottom,
+    //                black 0% 50%,
+    //                transparent 50% 100%
+    //);
+    //pointer-events: none;
+  }
 
   a {
     color: #D2D2D2;
@@ -73,8 +123,6 @@ body {
 
   .logo-title {
     grid-area: logo;
-
-    font-size: 36px;
     font-weight: bold;
     display: flex;
     align-items: center;
@@ -84,7 +132,7 @@ body {
   }
 
   .logo-text {
-    font-size: 36px;
+    font-size: clamp(20px, 3vw, 36px);
     margin: 0;
     font-weight: bold;
     padding: 0;
@@ -97,6 +145,50 @@ body {
     align-items: center;
     justify-content: end;
     gap: 46px;
+  }
+
+
+  @media (max-width: 700px) {
+    .nav-content {
+    }
+
+    .navlinks {
+      display: none;
+      opacity: 0;
+      transition-duration: 0.2s;
+      transition-property: display, opacity;
+      transition-behavior: allow-discrete;
+
+      grid-area: unset;
+      position: absolute;
+      top: 100%;
+      width: 100vw;
+      background-color: var(--bgcolor);
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      gap: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+    }
+
+    .opened .navlinks {
+      display: flex;
+      opacity: 1;
+
+      @starting-style {
+        opacity: 0;
+      }
+    }
+
+    .opened {
+      background: var(--bgcolor);
+    }
+
+    .menu.icon {
+      display: initial;
+    }
+
   }
 }
 
@@ -200,6 +292,28 @@ h2 {
 
   to {
     opacity: 0;
+  }
+}
+
+@keyframes DispIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes DispOut {
+  from {
+    opacity: 1;
+    display: flex;
+  }
+
+  to {
+    opacity: 0;
+    display: none;
   }
 }
 
