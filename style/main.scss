@@ -17,9 +17,10 @@
 :root {
   --text-color: #D2D2D2;
   --text-color-highlight: #FFC300;
-  --text-color-highlight-2: #FF6A00;
+  --text-color-highlight-2: #ff9900;
   --text-color-hover: white;
   --text-color-highlight-hover: #ffeaaa;
+  --text-color-highlight-2-hover: #ffdaaa;
   --bgcolor: #3B3B3B;
   --nav-outer-margin: 10%;
 }
@@ -224,18 +225,35 @@ h2 {
       grid-template-columns: 1fr auto;
 
       h2 {
-        align-self: center;
+        align-self: baseline;
+        transition: color 0.15s ease-out;
       }
 
       .date {
-        align-self: center;
+        align-self: baseline;
         font-size: 20px;
         color: var(--text-color-highlight-2);
+        transition: color 0.15s ease-out;
       }
 
       .description {
         font-size: 20px;
         grid-column: 1 / -1;
+        transition: color 0.15s ease-out;
+      }
+
+      &:hover {
+        h2 {
+          color: var(--text-color-highlight-hover);
+        }
+
+        .description {
+          color: var(--text-color-hover);
+        }
+
+        .date {
+          color: var(--text-color-highlight-2-hover);
+        }
       }
     }
   }
@@ -243,14 +261,6 @@ h2 {
 
 .info {
   font-style: italic;
-}
-
-p {
-  line-height: 1.5;
-}
-
-a {
-  color: var(--text-color-highlight);
 }
 
 .page {

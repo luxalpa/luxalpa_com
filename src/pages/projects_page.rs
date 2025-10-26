@@ -27,6 +27,7 @@ pub fn ProjectsPage() -> impl IntoView {
     view! {
         <div class="projects-page page">
             <Title text="Projects"/>
+            <p>"This is a selection of projects I have worked on over the years. Some are released, but many are unfinished or incomplete, as they were done primarily for exploration."</p>
             <p class="info">"Click on a project to learn more!"</p>
             <Suspense>
                 {projects_list}

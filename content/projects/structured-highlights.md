@@ -76,6 +76,11 @@ default theme that cannot normally be changed by the user outside of this extens
 Then the main piece of work - although not very challenging - will be to implement this highlighter for other
 programming languages, so that it will also be possible to use this in other Jetbrains IDE's.
 
-The final plan is to add more options for what to highlight. Currently it's only doing the outer-most blocks, but one
+The next plan is to add more options for what to highlight. Currently it's only doing the outer-most blocks, but one
 idea was to for example highlight inline lambda blocks, or the current loop-block, or if-condition, etc. Possibly even
 just the parts between function parentheses for nested function calls.
+
+Also, in addition to just block formatting, I also want to enable other types of syntactical highlighting as well.
+Current highlighting in pretty much every IDE is solely based on lexing (which is way more performant), but I would like
+to have more accurate highlights. For example, highlighting variables based on their types. Highlighting functions based
+on attribute-macros. Classes based on their interface implementations, etc.
