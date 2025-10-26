@@ -11,7 +11,9 @@ pub fn ProjectsPage() -> impl IntoView {
 
     let projects_list = move || {
         // TODO: Error handling
-        let projects = res.get()?.unwrap_or_default();
+        let mut projects = res.get()?.unwrap_or_default();
+
+        projects.sort_by(|a, b| b.date.cmp(&a.date));
 
         Some(view! {
             <ul class="entity-list">
@@ -25,6 +27,7 @@ pub fn ProjectsPage() -> impl IntoView {
     view! {
         <div class="projects-page page">
             <Title text="Projects"/>
+            <p class="info">"Click on a project to learn more!"</p>
             <Suspense>
                 {projects_list}
             </Suspense>

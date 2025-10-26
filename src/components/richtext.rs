@@ -4,6 +4,6 @@ use leptos::prelude::*;
 pub fn RichText(text: String) -> impl IntoView {
     let mdhtml = markdown::to_html(&text);
     view! {
-        <div inner_html=mdhtml />
+        <div inner_html=mdhtml class="markdown" />
     }
 }
