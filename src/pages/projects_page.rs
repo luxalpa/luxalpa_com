@@ -13,7 +13,7 @@ pub fn ProjectsPage() -> impl IntoView {
         // TODO: Error handling
         let mut projects = res.get()?.unwrap_or_default();
 
-        projects.sort_by(|a, b| b.date.cmp(&a.date));
+        projects.sort_by(|a, b| b.date.cmp(&a.date).then(b.description.cmp(&a.description)));
 
         Some(view! {
             <ul class="entity-list">

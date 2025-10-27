@@ -7,7 +7,7 @@ abstract:
 date: "2023 - 2025"
 ---
 
-This project is released under https://www.draconic-horizons.com/
+This project is released under <https://www.draconic-horizons.com/>
 
 ## Motivation
 
@@ -165,7 +165,7 @@ browser. Furthermore, each request to the server sends the frontend-api-version,
 out of date, it will send a specific error to the client that forces the client to reload the page.
 
 On the server-side, migrations primarily affect the Postgres Database. Some of the migration code can be run via SQL,
-but in a lot of cases, we store encoded objects which need to go through Rust in order to be decoded, modified, and then
+but in a lot of cases, I store encoded objects which need to go through Rust in order to be decoded, modified, and then
 reencoded.
 
 #### Other stuff
